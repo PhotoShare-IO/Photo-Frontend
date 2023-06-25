@@ -1,21 +1,19 @@
+import React, { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 
 import useAuth from "../../hooks/useAuth";
-import { ReactNode } from "react";
+import { getAccessToken } from "../../services/tokens";
 
 interface Props {
   children?: ReactNode;
 }
 
 function AuthGuard({ children }: Props) {
-  const { isAuthenticated, isInitialized, user } = useAuth();
+  const { isAuthenticated } = useAuth();
+  const token = getAccessToken()
 
-  if (isInitialized && !isAuthenticated) {
+  if (!isAuthenticated && !token) {
     return <Navigate to="/auth/login" />;
-  }
-
-  if (isAuthenticated && user && user.id) {
-    return <Navigate to="/" />;
   }
 
   return <>{children}</>;

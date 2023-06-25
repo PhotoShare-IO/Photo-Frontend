@@ -1,7 +1,9 @@
-import React from "react";
+import { Box } from "@mui/material";
 
 function Home() {
-  return <div>Home</div>;
+  return (
+    <Box></Box>
+  );
 }
 
 export default Home;

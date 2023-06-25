@@ -1,5 +1,5 @@
-import LinkToSignUp from "../../components/auth/LinkToSignUp";
-import SignInComponent from "../../components/auth/SignIn";
+import LinkToSignIn from "../../components/auth/LinkToSignIn";
+import SignUpComponent from "../../components/auth/SignUp";
 import { Paper, Box, styled, Typography } from "@mui/material";
 
 const Wrapper = styled(Box)(() => ({
@@ -12,7 +12,7 @@ const Wrapper = styled(Box)(() => ({
 
 const FormBox = styled(Paper)(() => ({
   width: "400px",
-  height: "420px",
+  height: "720px",
   background: "white",
   borderRadius: "10px",
   padding: "20px",
@@ -30,23 +30,23 @@ const ForgotPassword = styled(Typography)(() => ({
   marginTop: "20px",
 }));
 
-function SignIn() {
+function SignUp() {
   return (
     <Wrapper>
       <FormBox>
         <Title>
           <Typography variant="h4">Welcome to Photo-Share</Typography>
         </Title>
-        <SignInComponent />
+        <SignUpComponent />
         <Box>
           <ForgotPassword variant="subtitle2">Forgot password?</ForgotPassword>
         </Box>
         <Box sx={{ textAlign: "center", mt: 2 }}>
-          <LinkToSignUp />
+          <LinkToSignIn />
         </Box>
       </FormBox>
     </Wrapper>
   );
 }
 
-export default SignIn;
+export default SignUp;

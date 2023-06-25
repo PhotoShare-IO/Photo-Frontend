@@ -2,14 +2,12 @@ import axios from "axios";
 import * as qs from "qs";
 
 const requestConfig = (config: any) => {
-    console.log(config);
-    return config;
-}
-
-const responseConfig = (config: any) => {
-    console.log(config);
-    return config;
-}
+  const token = localStorage.getItem("accessToken");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+};
 
 export const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
@@ -20,11 +18,11 @@ export const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(
-    (config) => requestConfig(config),
-    (error) => Promise.reject(),
-)
+  (config) => requestConfig(config),
+  (error) => Promise.reject()
+);
 
 axiosInstance.interceptors.response.use(
-    (config) => responseConfig(config),
-    (error) => Promise.reject(),
-)
+  (config) => config,
+  (error) => Promise.reject()
+);

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   ReactNode,
   createContext,
@@ -7,18 +8,20 @@ import {
 } from "react";
 import { useDispatch } from "react-redux";
 import { axiosInstance } from "../services/axios";
-import { setAccessToken, setRefreshToken } from "../services/tokens";
-import { setUser } from "../redux/user";
+import {
+  removeTokens,
+  setAccessToken,
+  setRefreshToken,
+} from "../services/tokens";
+import { setUser, removeUser } from "../redux/user";
 
 const INITIALIZE = "INITIALIZE";
 const SIGN_IN = "SIGN_IN";
 const SIGN_OUT = "SIGN_OUT";
 const SIGN_UP = "SIGN_UP";
-const POST_SIGN_UP = "POST_SIGN_UP";
 
 interface State {
   isAuthenticated: boolean;
-  isInitialized: boolean;
   user: {
     id: null;
     email: null;
@@ -32,7 +35,6 @@ interface State {
 
 const initialState: State = {
   isAuthenticated: false,
-  isInitialized: false,
   user: {
     id: null,
     email: null,
@@ -71,14 +73,6 @@ const JWTReducer = (state: State, action: any) => {
         isAuthenticated: true,
         user: action.payload.user,
       };
-
-    case POST_SIGN_UP:
-      return {
-        ...state,
-        isAuthenticated: true,
-        user: action.payload.user,
-      };
-
     default:
       return state;
   }
@@ -86,7 +80,6 @@ const JWTReducer = (state: State, action: any) => {
 
 export const AuthContext = createContext({
   isAuthenticated: false,
-  isInitialized: false,
   user: {
     id: null,
     email: null,
@@ -105,40 +98,107 @@ interface Props {
 export function AuthProvider({ children }: Props) {
   const [state, dispatch] = useReducer(JWTReducer, initialState);
   const appDispatch = useDispatch();
+  const userId = localStorage.getItem("user");
 
-  const signIn = useCallback(async (email: string, password: string) => {
-    localStorage.clear();
+  useEffect(() => {
+    const initialize = async () => {
+      if (userId) {
+        const response = await axiosInstance.get(`/api/user/${userId}`);
+        if (response.status === 200) {
+          const { user } = response.data;
+          dispatch({
+            type: INITIALIZE,
+            payload: {
+              isAuthenticated: true,
+              user,
+            },
+          });
+          appDispatch(setUser(user));
+        }
+      }
+    };
 
-    delete axiosInstance.defaults.headers.common.Authorization;
-    const response = await axiosInstance.post("http://127.0.0.1:8000/api/auth/login/", {
-      email,
-      password,
-    });
+    initialize();
+  }, [appDispatch, userId]);
 
-    if (response.status === 200) {
-      const { tokens, user: sighInUser } = response.data;
-      appDispatch(setUser(sighInUser));
+  const signIn = useCallback(
+    async (email: string, password: string) => {
+      localStorage.clear();
 
-      const { access, refresh } = tokens;
-      setAccessToken(access);
-      setRefreshToken(refresh);
-
-      dispatch({
-        type: SIGN_IN,
-        payload: {
-          user: sighInUser,
-        },
+      delete axiosInstance.defaults.headers.common.Authorization;
+      const response = await axiosInstance.post("/api/auth/login/", {
+        email,
+        password,
       });
-    }
-    return response;
+
+      if (response.status === 200) {
+        const { tokens, user: sighInUser } = response.data;
+        appDispatch(setUser(sighInUser));
+
+        const { access, refresh } = tokens;
+        setAccessToken(access);
+        setRefreshToken(refresh);
+        localStorage.setItem("user", sighInUser.id);
+
+        dispatch({
+          type: SIGN_IN,
+          payload: {
+            user: sighInUser,
+          },
+        });
+      }
+      return response;
+    },
+    [appDispatch]
+  );
+
+  const signUp = useCallback(
+    async (
+      username: string,
+      firstName: string,
+      lastName: string,
+      email: string,
+      password: string
+    ) => {
+      const response = await axiosInstance.post("/api/auth/register/", {
+        username,
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        password,
+      });
+
+      if (response.status === 200) {
+        const { user: sighUpUser } = response.data;
+
+        dispatch({
+          type: SIGN_UP,
+          payload: {
+            user: sighUpUser,
+          },
+        });
+      }
+
+      return response;
+    },
+    []
+  );
+
+  const signOut = useCallback(async () => {
+    localStorage.clear();
+    removeTokens();
+    appDispatch(removeUser());
+    dispatch({ type: SIGN_OUT });
   }, [appDispatch]);
 
   const providerValue = useMemo(() => {
     return {
       ...state,
       signIn,
+      signUp,
+      signOut,
     };
-  }, [state, signIn]);
+  }, [state, signIn, signUp, signOut]);
 
   return (
     <AuthContext.Provider value={providerValue}>
