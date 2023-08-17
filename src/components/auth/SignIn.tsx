@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Formik } from "formik";
 import {
-  TextField as MuiTextField,
   Box,
   styled,
   IconButton,
@@ -15,28 +14,13 @@ import {axiosInstance} from "../../services/axios";
 import {useDispatch} from "react-redux";
 import {setCredentials} from "../../redux/auth";
 import { Login } from "./types";
-
-const TextField = styled(MuiTextField)(() => ({
-  margin: "10px 0",
-}));
+import TextField from "../../UI/TextField";
 
 const SubmitButton = styled(LoadingButton)(() => ({
-  width: "250px",
+  width: "200px",
   height: "45px",
   marginTop: "20px",
-  backgroundColor: "#c31952",
-  borderRadius: "20px",
-  color: "#fff",
   fontWeight: 700,
-  border: "none",
-  transition: ".05s all ease-in",
-  "&:hover": {
-    backgroundColor: "#d51c5f",
-    border: "none",
-  },
-  "&:focus": {
-    transform: "scale(0.97)"
-  },
 }));
 
 const ButtonBox = styled(Box)(() => ({
@@ -107,25 +91,27 @@ function SignIn() {
         }) => (
           <form noValidate onSubmit={handleSubmit}>
             {errorMessage}
-            <TextField
-              fullWidth
-              value={values.email}
-              type="email"
-              name="email"
-              variant="outlined"
-              label="Email"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={Boolean(touched.email && errors.email)}
-              helperText={touched.email && errors.email}
-            />
-            <Box sx={{ position: "relative", display: "inline" }}>
+            <Box>
+              <TextField
+                fullWidth
+                value={values.email}
+                type="email"
+                name="email"
+                variant="standard"
+                label="Email"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={Boolean(touched.email && errors.email)}
+                helperText={touched.email && errors.email}
+              />
+            </Box>
+            <Box sx={{ position: "relative" }}>
               <TextField
                 fullWidth
                 value={values.password}
                 type={showPass ? "text" : "password"}
                 name="password"
-                variant="outlined"
+                variant="standard"
                 label="Password"
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -134,9 +120,13 @@ function SignIn() {
               />
               <IconButton
                 sx={{
+                  "& .MuiSvgIcon-root": {
+                    fontSize: "18px",
+                  },
+                  padding: "3px",
                   position: "absolute",
-                  top: 18,
-                  right: 0,
+                  top: 35,
+                  right: 10,
                 }}
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
@@ -147,7 +137,8 @@ function SignIn() {
             <ButtonBox>
               <SubmitButton
                 type="submit"
-                variant="outlined"
+                variant="contained"
+                color="primary"
                 disabled={isSubmitting}
               >
                 Log in

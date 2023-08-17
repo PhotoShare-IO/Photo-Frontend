@@ -1,6 +1,8 @@
 import LinkToSignUp from "../../components/auth/LinkToSignUp";
 import SignInComponent from "../../components/auth/SignIn";
-import { Paper, Box, styled, Typography } from "@mui/material";
+import {Paper, Box, styled, Typography} from "@mui/material";
+import {COLORS} from "../../theme/colors";
+import * as React from "react";
 
 const Wrapper = styled(Box)(() => ({
   width: "100%",
@@ -11,17 +13,16 @@ const Wrapper = styled(Box)(() => ({
 }));
 
 const FormBox = styled(Paper)(() => ({
-  width: "400px",
-  minHeight: "420px",
-  background: "white",
-  borderRadius: "10px",
-  padding: "20px",
+  width: "320px",
+  minHeight: "380px",
+  border: `1px dashed ${COLORS.main}`,
+  padding: "40px",
 }));
 
-const Title = styled(Typography)(() => ({
+const Title = styled(Box)(() => ({
   fontWeight: 700,
   textAlign: "center",
-  margin: "15px",
+  marginBottom: "15px",
 }));
 
 const ForgotPassword = styled(Typography)(() => ({
@@ -35,14 +36,19 @@ function SignIn() {
     <Wrapper>
       <FormBox>
         <Title>
-          <Typography variant="h4">Welcome to Photo-Share</Typography>
+          <Box sx={{ marginBottom: "15px" }}>
+            <Typography sx={{ color: COLORS.main }} variant="h4">
+              <b>Ph-Sh</b>
+            </Typography>
+          </Box>
+          <Typography variant="h4">Welcome!</Typography>
         </Title>
-        <SignInComponent />
+        <SignInComponent/>
         <Box>
           <ForgotPassword variant="subtitle2">Forgot password?</ForgotPassword>
         </Box>
-        <Box sx={{ textAlign: "center", mt: 2 }}>
-          <LinkToSignUp />
+        <Box sx={{textAlign: "center", mt: 2}}>
+          <LinkToSignUp/>
         </Box>
       </FormBox>
     </Wrapper>
