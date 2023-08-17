@@ -4,7 +4,7 @@ import { Paper, Box, styled, Typography } from "@mui/material";
 
 const Wrapper = styled(Box)(() => ({
   width: "100%",
-  height: "100vh",
+  height: "calc(100vh - 64px)",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
@@ -12,7 +12,7 @@ const Wrapper = styled(Box)(() => ({
 
 const FormBox = styled(Paper)(() => ({
   width: "400px",
-  height: "420px",
+  minHeight: "420px",
   background: "white",
   borderRadius: "10px",
   padding: "20px",

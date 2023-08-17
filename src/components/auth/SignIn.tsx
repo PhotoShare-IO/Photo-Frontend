@@ -9,14 +9,12 @@ import {
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LoadingButton from "@mui/lab/LoadingButton";
-import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-
-interface Login {
-  email: string;
-  password: string;
-}
+import {axiosInstance} from "../../services/axios";
+import {useDispatch} from "react-redux";
+import {setCredentials} from "../../redux/auth";
+import { Login } from "./types";
 
 const TextField = styled(MuiTextField)(() => ({
   margin: "10px 0",
@@ -26,16 +24,18 @@ const SubmitButton = styled(LoadingButton)(() => ({
   width: "250px",
   height: "45px",
   marginTop: "20px",
-  backgroundColor: "#ed596f",
+  backgroundColor: "#c31952",
   borderRadius: "20px",
   color: "#fff",
   fontWeight: 700,
   border: "none",
-  transition: ".2s all ease-in",
+  transition: ".05s all ease-in",
   "&:hover": {
-    backgroundColor: "#ed596f",
+    backgroundColor: "#d51c5f",
     border: "none",
-    boxShadow: "0 0 0 0.25rem rgba(230, 0, 34, .25)",
+  },
+  "&:focus": {
+    transform: "scale(0.97)"
   },
 }));
 
@@ -45,9 +45,10 @@ const ButtonBox = styled(Box)(() => ({
 }));
 
 function SignIn() {
-  const { signIn }: any = useAuth();
   const navigate = useNavigate();
-  const [showPass, setShowPass] = useState(false);
+  const [showPass, setShowPass] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const dispatch = useDispatch();
 
   const handleClickShowPassword = () => {
     setShowPass((prevShowPass) => !prevShowPass);
@@ -56,6 +57,19 @@ function SignIn() {
   const handleMouseDownPassword = (event: any) => {
     event.preventDefault();
   };
+
+  const signIn = async (email: string, password: string): Promise<void> => {
+    try {
+      delete axiosInstance.defaults.headers.common.Authorization;
+      const response = await axiosInstance.post("/api/auth/login/", {
+        email,
+        password,
+      });
+      dispatch(setCredentials(response.data))
+    } catch (e: any) {
+      setErrorMessage(e?.message)
+    }
+  }
 
   const initialValues: Login = {
     email: "",
@@ -92,6 +106,7 @@ function SignIn() {
           errors,
         }) => (
           <form noValidate onSubmit={handleSubmit}>
+            {errorMessage}
             <TextField
               fullWidth
               value={values.email}

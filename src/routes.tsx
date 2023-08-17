@@ -1,51 +1,54 @@
 import Home from "./components/home/Home";
-import Landing from "./components/landing/Landing";
 import Auth from "./layouts/Auth";
 import BaseTemplate from "./layouts/BaseTemplate";
-import Presentation from "./layouts/Presentation";
 import AuthGuard from "./layouts/guards/AuthGuard";
 import SignIn from "./pages/auth/SignIn";
 import SignUp from "./pages/auth/SignUp";
+import NonFound from "./components/NonFound";
+import BaseGuard from "./layouts/guards/BaseGuard";
+import {Navigate} from "react-router-dom";
 
 const routes = [
   {
     path: "/",
-    element: <Presentation />,
-    children: [
-      {
-        path: "",
-        element: <Landing />,
-      },
-    ],
-  },
-  {
-    path: "",
     element: (
       <AuthGuard>
-        <BaseTemplate />
+        <BaseTemplate/>
       </AuthGuard>
     ),
     children: [
       {
         path: "home",
-        element: <Home />,
+        element: <Home/>,
       },
+      {
+        path: "*",
+        element: <NonFound/>,
+      }
     ],
   },
   {
     path: "auth",
-    element: <Auth />,
+    element: (
+      <BaseGuard>
+        <Auth/>
+      </BaseGuard>
+    ),
     children: [
       {
         path: "login",
-        element: <SignIn />,
+        element: <SignIn/>,
       },
       {
         path: "register",
-        element: <SignUp />,
+        element: <SignUp/>,
       },
     ],
   },
+  {
+    path: "*",
+    element: <NonFound/>,
+  }
 ];
 
 export default routes;

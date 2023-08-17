@@ -10,7 +10,6 @@ import {
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LoadingButton from "@mui/lab/LoadingButton";
-import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
@@ -50,7 +49,6 @@ const ButtonBox = styled(Box)(() => ({
 }));
 
 function SignUp() {
-  const { signIn, signUp }: any = useAuth();
   const navigate = useNavigate();
   const [showPass, setShowPass] = useState(false);
 
@@ -117,17 +115,17 @@ function SignUp() {
         })}
         onSubmit={async (values) => {
           try {
-            const response = await signUp(
-              values.username,
-              values.firstName,
-              values.lastName,
-              values.email,
-              values.password
-            );
-            if (response.status === 200) {
-              await signIn(values.email, values.password);
-              navigate("/");
-            }
+            // const response = await signUp(
+            //   values.username,
+            //   values.firstName,
+            //   values.lastName,
+            //   values.email,
+            //   values.password
+            // );
+            // if (response.status === 200) {
+            //   await signIn(values.email, values.password);
+            //   navigate("/");
+            // }
           } catch (error) {
             console.log(error);
           }

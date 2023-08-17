@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 
 function Home() {
   return (
-    <Box></Box>
+    <Box>This is home page</Box>
   );
 }
 
