@@ -11,6 +11,7 @@ import {logOut, selectUser} from "../../redux/auth";
 import {formatUserName} from "../../utils/formatUserName";
 import {Link, useNavigate} from "react-router-dom";
 import {AccountCircle} from "@mui/icons-material";
+import {useEffect} from "react";
 
 const HeaderBar = styled(AppBar)(() => ({
   boxShadow: "none",
@@ -24,6 +25,9 @@ function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    console.log(user)
+  }, [user])
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);

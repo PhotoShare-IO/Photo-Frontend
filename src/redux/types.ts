@@ -25,3 +25,8 @@ export interface LoginData {
         refresh: string,
     }
 }
+
+export interface setCredentialsAction {
+    type: "auth/setCredentials",
+    payload: LoginData
+}

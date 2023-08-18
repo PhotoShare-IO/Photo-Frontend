@@ -40,9 +40,9 @@ const authSlice = createSlice({
         is_superuser: false,
       };
     },
-    logOut: (state): void => {
+    logOut: (state): Auth => {
       removeTokens()
-      state = initialState
+      return initialState;
     }
   },
 });

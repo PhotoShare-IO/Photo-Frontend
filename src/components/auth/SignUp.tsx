@@ -1,17 +1,20 @@
-import { useState } from "react";
-import { Formik } from "formik";
+import {useState} from "react";
+import {Formik} from "formik";
 import {
   TextField as MuiTextField,
   Box,
   styled,
   InputAdornment,
-  IconButton,
+  IconButton, Alert,
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import * as Yup from "yup";
+import {useDispatch} from "react-redux";
+import {signUp} from "../../utils/auth/signUp";
+import {signIn} from "../../utils/auth/signIn";
 
 interface Register {
   username: string;
@@ -49,8 +52,10 @@ const ButtonBox = styled(Box)(() => ({
 }));
 
 function SignUp() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [showPass, setShowPass] = useState(false);
+  const [showPass, setShowPass] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const handleClickShowPassword = () => {
     setShowPass((prevShowPass) => !prevShowPass);
@@ -68,7 +73,7 @@ function SignUp() {
         onMouseDown={handleMouseDownPassword}
         edge="end"
       >
-        {showPass ? <VisibilityOff /> : <Visibility />}
+        {showPass ? <VisibilityOff/> : <Visibility/>}
       </IconButton>
     </InputAdornment>
   );
@@ -114,33 +119,32 @@ function SignUp() {
           }),
         })}
         onSubmit={async (values) => {
-          try {
-            // const response = await signUp(
-            //   values.username,
-            //   values.firstName,
-            //   values.lastName,
-            //   values.email,
-            //   values.password
-            // );
-            // if (response.status === 200) {
-            //   await signIn(values.email, values.password);
-            //   navigate("/");
-            // }
-          } catch (error) {
-            console.log(error);
+          const response = await signUp(
+            values.username,
+            values.firstName,
+            values.lastName,
+            values.email,
+            values.password,
+            setErrorMessage,
+          );
+          if (response?.status === 200) {
+            const res = await signIn(values.email, values.password, dispatch, setErrorMessage);
+            if (res?.status === 200) navigate("/");
           }
         }}
       >
         {({
-          values,
-          handleBlur,
-          handleChange,
-          handleSubmit,
-          isSubmitting,
-          touched,
-          errors,
-        }) => (
+            values,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+            isSubmitting,
+            touched,
+            errors,
+          }) => (
           <form noValidate onSubmit={handleSubmit}>
+            {errorMessage && <Alert severity="warning">{errorMessage}</Alert>}
+            <br/>
             <TextField
               fullWidth
               value={values.username}
