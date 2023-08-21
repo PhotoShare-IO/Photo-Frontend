@@ -1,17 +1,16 @@
-import { useState } from "react";
-import { Formik } from "formik";
+import {useState} from "react";
+import {Formik} from "formik";
 import {
-  TextField as MuiTextField,
   Box,
   styled,
   InputAdornment,
   IconButton,
 } from "@mui/material";
+import TextField from "../../UI/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LoadingButton from "@mui/lab/LoadingButton";
-import useAuth from "../../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import * as Yup from "yup";
 
 interface Register {
@@ -23,25 +22,11 @@ interface Register {
   confirmPassword: string;
 }
 
-const TextField = styled(MuiTextField)(() => ({
-  margin: "10px 0",
-}));
-
 const SubmitButton = styled(LoadingButton)(() => ({
-  width: "250px",
+  width: "200px",
   height: "45px",
   marginTop: "20px",
-  backgroundColor: "#ed596f",
-  borderRadius: "20px",
-  color: "#fff",
   fontWeight: 700,
-  border: "none",
-  transition: ".2s all ease-in",
-  "&:hover": {
-    backgroundColor: "#ed596f",
-    border: "none",
-    boxShadow: "0 0 0 0.25rem rgba(230, 0, 34, .25)",
-  },
 }));
 
 const ButtonBox = styled(Box)(() => ({
@@ -50,7 +35,6 @@ const ButtonBox = styled(Box)(() => ({
 }));
 
 function SignUp() {
-  const { signIn, signUp }: any = useAuth();
   const navigate = useNavigate();
   const [showPass, setShowPass] = useState(false);
 
@@ -70,16 +54,10 @@ function SignUp() {
         onMouseDown={handleMouseDownPassword}
         edge="end"
       >
-        {showPass ? <VisibilityOff /> : <Visibility />}
+        {showPass ? <VisibilityOff/> : <Visibility/>}
       </IconButton>
     </InputAdornment>
   );
-
-  const inputProps = {
-    InputProps: {
-      endAdornment,
-    },
-  };
 
   const initialValues: Register = {
     username: "",
@@ -117,110 +95,122 @@ function SignUp() {
         })}
         onSubmit={async (values) => {
           try {
-            const response = await signUp(
-              values.username,
-              values.firstName,
-              values.lastName,
-              values.email,
-              values.password
-            );
-            if (response.status === 200) {
-              await signIn(values.email, values.password);
-              navigate("/");
-            }
+            // const response = await signUp(
+            //   values.username,
+            //   values.firstName,
+            //   values.lastName,
+            //   values.email,
+            //   values.password
+            // );
+            // if (response.status === 200) {
+            //   await signIn(values.email, values.password);
+            //   navigate("/");
+            // }
           } catch (error) {
             console.log(error);
           }
         }}
       >
         {({
-          values,
-          handleBlur,
-          handleChange,
-          handleSubmit,
-          isSubmitting,
-          touched,
-          errors,
-        }) => (
+            values,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+            isSubmitting,
+            touched,
+            errors,
+          }) => (
           <form noValidate onSubmit={handleSubmit}>
-            <TextField
-              fullWidth
-              value={values.username}
-              type="text"
-              name="username"
-              variant="outlined"
-              label="Username"
-              onChange={handleChange}
-              error={Boolean(touched.username && errors.username)}
-              helperText={touched.username && errors.username}
-              onBlur={handleBlur}
-            />
-            <TextField
-              fullWidth
-              value={values.firstName}
-              type="text"
-              name="firstName"
-              variant="outlined"
-              label="First Name"
-              onChange={handleChange}
-              error={Boolean(touched.firstName && errors.firstName)}
-              helperText={touched.firstName && errors.firstName}
-              onBlur={handleBlur}
-            />
-            <TextField
-              fullWidth
-              value={values.lastName}
-              type="text"
-              name="lastName"
-              variant="outlined"
-              label="Last Name"
-              onChange={handleChange}
-              error={Boolean(touched.lastName && errors.lastName)}
-              helperText={touched.lastName && errors.lastName}
-              onBlur={handleBlur}
-            />
-            <TextField
-              fullWidth
-              value={values.email}
-              type="email"
-              name="email"
-              variant="outlined"
-              label="Email"
-              onChange={handleChange}
-              error={Boolean(touched.email && errors.email)}
-              helperText={touched.email && errors.email}
-              onBlur={handleBlur}
-            />
-            <TextField
-              fullWidth
-              variant="outlined"
-              type={showPass ? "text" : "password"}
-              name="password"
-              label="Password"
-              value={values.password}
-              error={Boolean(touched.password && errors.password)}
-              helperText={touched.password && errors.password}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              {...inputProps}
-            />
-            <TextField
-              fullWidth
-              variant="outlined"
-              type={showPass ? "text" : "password"}
-              name="confirmPassword"
-              label="Confirm password"
-              value={values.confirmPassword}
-              error={Boolean(touched.confirmPassword && errors.confirmPassword)}
-              helperText={touched.confirmPassword && errors.confirmPassword}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              {...inputProps}
-            />
+            <Box>
+              <TextField
+                fullWidth
+                value={values.username}
+                type="text"
+                name="username"
+                variant="outlined"
+                label="Username"
+                onChange={handleChange}
+                error={Boolean(touched.username && errors.username)}
+                helperText={touched.username && errors.username}
+                onBlur={handleBlur}
+              />
+            </Box>
+            <Box>
+              <TextField
+                fullWidth
+                value={values.firstName}
+                type="text"
+                name="firstName"
+                variant="outlined"
+                label="First Name"
+                onChange={handleChange}
+                error={Boolean(touched.firstName && errors.firstName)}
+                helperText={touched.firstName && errors.firstName}
+                onBlur={handleBlur}
+              />
+            </Box>
+            <Box>
+              <TextField
+                fullWidth
+                value={values.lastName}
+                type="text"
+                name="lastName"
+                variant="outlined"
+                label="Last Name"
+                onChange={handleChange}
+                error={Boolean(touched.lastName && errors.lastName)}
+                helperText={touched.lastName && errors.lastName}
+                onBlur={handleBlur}
+              />
+            </Box>
+            <Box>
+              <TextField
+                fullWidth
+                value={values.email}
+                type="email"
+                name="email"
+                variant="outlined"
+                label="Email"
+                onChange={handleChange}
+                error={Boolean(touched.email && errors.email)}
+                helperText={touched.email && errors.email}
+                onBlur={handleBlur}
+              />
+            </Box>
+            <Box>
+              <TextField
+                fullWidth
+                variant="outlined"
+                type={showPass ? "text" : "password"}
+                name="password"
+                label="Password"
+                value={values.password}
+                error={Boolean(touched.password && errors.password)}
+                helperText={touched.password && errors.password}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                endAdornment={endAdornment}
+              />
+            </Box>
+            <Box>
+              <TextField
+                fullWidth
+                variant="outlined"
+                type={showPass ? "text" : "password"}
+                name="confirmPassword"
+                label="Confirm password"
+                value={values.confirmPassword}
+                error={Boolean(touched.confirmPassword && errors.confirmPassword)}
+                helperText={touched.confirmPassword && errors.confirmPassword}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                endAdornment={endAdornment}
+              />
+            </Box>
             <ButtonBox>
               <SubmitButton
                 type="submit"
-                variant="outlined"
+                variant="contained"
                 disabled={isSubmitting}
               >
                 Create an account

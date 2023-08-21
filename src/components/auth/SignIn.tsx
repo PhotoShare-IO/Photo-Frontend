@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Formik } from "formik";
 import {
-  TextField as MuiTextField,
   Box,
   styled,
   IconButton,
@@ -9,34 +8,19 @@ import {
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LoadingButton from "@mui/lab/LoadingButton";
-import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-
-interface Login {
-  email: string;
-  password: string;
-}
-
-const TextField = styled(MuiTextField)(() => ({
-  margin: "10px 0",
-}));
+import {axiosInstance} from "../../services/axios";
+import {useDispatch} from "react-redux";
+import {setCredentials} from "../../redux/auth";
+import { Login } from "./types";
+import TextField from "../../UI/TextField";
 
 const SubmitButton = styled(LoadingButton)(() => ({
-  width: "250px",
+  width: "200px",
   height: "45px",
   marginTop: "20px",
-  backgroundColor: "#ed596f",
-  borderRadius: "20px",
-  color: "#fff",
   fontWeight: 700,
-  border: "none",
-  transition: ".2s all ease-in",
-  "&:hover": {
-    backgroundColor: "#ed596f",
-    border: "none",
-    boxShadow: "0 0 0 0.25rem rgba(230, 0, 34, .25)",
-  },
 }));
 
 const ButtonBox = styled(Box)(() => ({
@@ -45,9 +29,10 @@ const ButtonBox = styled(Box)(() => ({
 }));
 
 function SignIn() {
-  const { signIn }: any = useAuth();
   const navigate = useNavigate();
-  const [showPass, setShowPass] = useState(false);
+  const [showPass, setShowPass] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const dispatch = useDispatch();
 
   const handleClickShowPassword = () => {
     setShowPass((prevShowPass) => !prevShowPass);
@@ -56,6 +41,19 @@ function SignIn() {
   const handleMouseDownPassword = (event: any) => {
     event.preventDefault();
   };
+
+  const signIn = async (email: string, password: string): Promise<void> => {
+    try {
+      delete axiosInstance.defaults.headers.common.Authorization;
+      const response = await axiosInstance.post("/api/auth/login/", {
+        email,
+        password,
+      });
+      dispatch(setCredentials(response.data))
+    } catch (e: any) {
+      setErrorMessage(e?.message)
+    }
+  }
 
   const initialValues: Login = {
     email: "",
@@ -92,25 +90,28 @@ function SignIn() {
           errors,
         }) => (
           <form noValidate onSubmit={handleSubmit}>
-            <TextField
-              fullWidth
-              value={values.email}
-              type="email"
-              name="email"
-              variant="outlined"
-              label="Email"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={Boolean(touched.email && errors.email)}
-              helperText={touched.email && errors.email}
-            />
-            <Box sx={{ position: "relative", display: "inline" }}>
+            {errorMessage}
+            <Box>
+              <TextField
+                fullWidth
+                value={values.email}
+                type="email"
+                name="email"
+                variant="standard"
+                label="Email"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={Boolean(touched.email && errors.email)}
+                helperText={touched.email && errors.email}
+              />
+            </Box>
+            <Box sx={{ position: "relative" }}>
               <TextField
                 fullWidth
                 value={values.password}
                 type={showPass ? "text" : "password"}
                 name="password"
-                variant="outlined"
+                variant="standard"
                 label="Password"
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -119,9 +120,13 @@ function SignIn() {
               />
               <IconButton
                 sx={{
+                  "& .MuiSvgIcon-root": {
+                    fontSize: "18px",
+                  },
+                  padding: "3px",
                   position: "absolute",
-                  top: 18,
-                  right: 0,
+                  top: 35,
+                  right: 10,
                 }}
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
@@ -132,7 +137,8 @@ function SignIn() {
             <ButtonBox>
               <SubmitButton
                 type="submit"
-                variant="outlined"
+                variant="contained"
+                color="primary"
                 disabled={isSubmitting}
               >
                 Log in
