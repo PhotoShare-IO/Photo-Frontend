@@ -78,12 +78,12 @@ function Header() {
             :
             <>
               <Box sx={{marginRight: "15px"}}>
-                <Button variant="outlined" color="inherit">
+                <Button variant="contained" color="primary">
                   <Link style={{ color: "inherit", textDecoration: "none" }} to="/auth/login">Login</Link>
                 </Button>
               </Box>
               <Box>
-                <Button variant="outlined" color="inherit">
+                <Button variant="contained" color="primary">
                   <Link style={{ color: "inherit", textDecoration: "none" }} to="/auth/register">Register</Link>
                 </Button>
               </Box>

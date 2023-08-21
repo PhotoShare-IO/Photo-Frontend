@@ -1,24 +1,25 @@
 import LinkToSignIn from "../../components/auth/LinkToSignIn";
 import SignUpComponent from "../../components/auth/SignUp";
 import { Paper, Box, styled, Typography } from "@mui/material";
+import {COLORS} from "../../theme/colors";
+import * as React from "react";
 
 const Wrapper = styled(Box)(() => ({
   width: "100%",
-  height: "100vh",
+  height: "calc(100vh - 64px)",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
 }));
 
 const FormBox = styled(Paper)(() => ({
-  width: "400px",
-  height: "720px",
-  background: "white",
-  borderRadius: "10px",
-  padding: "20px",
+  width: "320px",
+  minHeight: "640px",
+  padding: "40px",
+  border: `1px dashed ${COLORS.main}`,
 }));
 
-const Title = styled(Typography)(() => ({
+const Title = styled(Box)(() => ({
   fontWeight: 700,
   textAlign: "center",
   margin: "15px",
@@ -35,7 +36,12 @@ function SignUp() {
     <Wrapper>
       <FormBox>
         <Title>
-          <Typography variant="h4">Welcome to Photo-Share</Typography>
+          <Box sx={{ marginBottom: "15px" }}>
+            <Typography sx={{ color: COLORS.main }} variant="h4">
+              <b>Ph-Sh</b>
+            </Typography>
+          </Box>
+          <Typography variant="h4">Welcome!</Typography>
         </Title>
         <SignUpComponent />
         <Box>

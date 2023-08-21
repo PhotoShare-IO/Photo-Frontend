@@ -1,7 +1,6 @@
 import {useState} from "react";
 import {Formik} from "formik";
 import {
-  TextField as MuiTextField,
   Box,
   styled,
   IconButton,
@@ -15,28 +14,14 @@ import * as Yup from "yup";
 import {useDispatch} from "react-redux";
 import {Login} from "./types";
 import {signIn} from "../../utils/auth/signIn";
-
-const TextField = styled(MuiTextField)(() => ({
-  margin: "10px 0",
-}));
+import {setCredentials} from "../../redux/auth";
+import TextField from "../../UI/TextField";
 
 const SubmitButton = styled(LoadingButton)(() => ({
-  width: "250px",
+  width: "200px",
   height: "45px",
   marginTop: "20px",
-  backgroundColor: "#c31952",
-  borderRadius: "20px",
-  color: "#fff",
   fontWeight: 700,
-  border: "none",
-  transition: ".05s all ease-in",
-  "&:hover": {
-    backgroundColor: "#d51c5f",
-    border: "none",
-  },
-  "&:focus": {
-    transform: "scale(0.97)"
-  },
 }));
 
 const ButtonBox = styled(Box)(() => ({
@@ -103,13 +88,13 @@ function SignIn() {
               error={Boolean(touched.email && errors.email)}
               helperText={touched.email && errors.email}
             />
-            <Box sx={{position: "relative", display: "inline"}}>
+            <Box sx={{ position: "relative" }}>
               <TextField
                 fullWidth
                 value={values.password}
                 type={showPass ? "text" : "password"}
                 name="password"
-                variant="outlined"
+                variant="standard"
                 label="Password"
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -118,9 +103,13 @@ function SignIn() {
               />
               <IconButton
                 sx={{
+                  "& .MuiSvgIcon-root": {
+                    fontSize: "18px",
+                  },
+                  padding: "3px",
                   position: "absolute",
-                  top: 18,
-                  right: 0,
+                  top: 35,
+                  right: 10,
                 }}
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
@@ -131,7 +120,8 @@ function SignIn() {
             <ButtonBox>
               <SubmitButton
                 type="submit"
-                variant="outlined"
+                variant="contained"
+                color="primary"
                 disabled={isSubmitting}
               >
                 Log in

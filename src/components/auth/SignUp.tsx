@@ -1,12 +1,12 @@
 import {useState} from "react";
 import {Formik} from "formik";
 import {
-  TextField as MuiTextField,
   Box,
   styled,
   InputAdornment,
   IconButton, Alert,
 } from "@mui/material";
+import TextField from "../../UI/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -25,25 +25,11 @@ interface Register {
   confirmPassword: string;
 }
 
-const TextField = styled(MuiTextField)(() => ({
-  margin: "10px 0",
-}));
-
 const SubmitButton = styled(LoadingButton)(() => ({
-  width: "250px",
+  width: "200px",
   height: "45px",
   marginTop: "20px",
-  backgroundColor: "#ed596f",
-  borderRadius: "20px",
-  color: "#fff",
   fontWeight: 700,
-  border: "none",
-  transition: ".2s all ease-in",
-  "&:hover": {
-    backgroundColor: "#ed596f",
-    border: "none",
-    boxShadow: "0 0 0 0.25rem rgba(230, 0, 34, .25)",
-  },
 }));
 
 const ButtonBox = styled(Box)(() => ({
@@ -77,12 +63,6 @@ function SignUp() {
       </IconButton>
     </InputAdornment>
   );
-
-  const inputProps = {
-    InputProps: {
-      endAdornment,
-    },
-  };
 
   const initialValues: Register = {
     username: "",
@@ -222,7 +202,7 @@ function SignUp() {
             <ButtonBox>
               <SubmitButton
                 type="submit"
-                variant="outlined"
+                variant="contained"
                 disabled={isSubmitting}
               >
                 Create an account
