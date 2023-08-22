@@ -4,7 +4,7 @@ import {
   Box,
   styled,
   InputAdornment,
-  IconButton,
+  IconButton, Alert,
 } from "@mui/material";
 import TextField from "../../UI/TextField";
 import Visibility from "@mui/icons-material/Visibility";
@@ -12,6 +12,9 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {useNavigate} from "react-router-dom";
 import * as Yup from "yup";
+import {useDispatch} from "react-redux";
+import {signUp} from "../../utils/auth/signUp";
+import {signIn} from "../../utils/auth/signIn";
 
 interface Register {
   username: string;
@@ -35,8 +38,10 @@ const ButtonBox = styled(Box)(() => ({
 }));
 
 function SignUp() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [showPass, setShowPass] = useState(false);
+  const [showPass, setShowPass] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const handleClickShowPassword = () => {
     setShowPass((prevShowPass) => !prevShowPass);
@@ -94,20 +99,17 @@ function SignUp() {
           }),
         })}
         onSubmit={async (values) => {
-          try {
-            // const response = await signUp(
-            //   values.username,
-            //   values.firstName,
-            //   values.lastName,
-            //   values.email,
-            //   values.password
-            // );
-            // if (response.status === 200) {
-            //   await signIn(values.email, values.password);
-            //   navigate("/");
-            // }
-          } catch (error) {
-            console.log(error);
+          const response = await signUp(
+            values.username,
+            values.firstName,
+            values.lastName,
+            values.email,
+            values.password,
+            setErrorMessage,
+          );
+          if (response?.status === 200) {
+            const res = await signIn(values.email, values.password, dispatch, setErrorMessage);
+            if (res?.status === 200) navigate("/");
           }
         }}
       >
@@ -121,92 +123,82 @@ function SignUp() {
             errors,
           }) => (
           <form noValidate onSubmit={handleSubmit}>
-            <Box>
-              <TextField
-                fullWidth
-                value={values.username}
-                type="text"
-                name="username"
-                variant="outlined"
-                label="Username"
-                onChange={handleChange}
-                error={Boolean(touched.username && errors.username)}
-                helperText={touched.username && errors.username}
-                onBlur={handleBlur}
-              />
-            </Box>
-            <Box>
-              <TextField
-                fullWidth
-                value={values.firstName}
-                type="text"
-                name="firstName"
-                variant="outlined"
-                label="First Name"
-                onChange={handleChange}
-                error={Boolean(touched.firstName && errors.firstName)}
-                helperText={touched.firstName && errors.firstName}
-                onBlur={handleBlur}
-              />
-            </Box>
-            <Box>
-              <TextField
-                fullWidth
-                value={values.lastName}
-                type="text"
-                name="lastName"
-                variant="outlined"
-                label="Last Name"
-                onChange={handleChange}
-                error={Boolean(touched.lastName && errors.lastName)}
-                helperText={touched.lastName && errors.lastName}
-                onBlur={handleBlur}
-              />
-            </Box>
-            <Box>
-              <TextField
-                fullWidth
-                value={values.email}
-                type="email"
-                name="email"
-                variant="outlined"
-                label="Email"
-                onChange={handleChange}
-                error={Boolean(touched.email && errors.email)}
-                helperText={touched.email && errors.email}
-                onBlur={handleBlur}
-              />
-            </Box>
-            <Box>
-              <TextField
-                fullWidth
-                variant="outlined"
-                type={showPass ? "text" : "password"}
-                name="password"
-                label="Password"
-                value={values.password}
-                error={Boolean(touched.password && errors.password)}
-                helperText={touched.password && errors.password}
-                onBlur={handleBlur}
-                onChange={handleChange}
-                endAdornment={endAdornment}
-              />
-            </Box>
-            <Box>
-              <TextField
-                fullWidth
-                variant="outlined"
-                type={showPass ? "text" : "password"}
-                name="confirmPassword"
-                label="Confirm password"
-                value={values.confirmPassword}
-                error={Boolean(touched.confirmPassword && errors.confirmPassword)}
-                helperText={touched.confirmPassword && errors.confirmPassword}
-                onBlur={handleBlur}
-                onChange={handleChange}
-                endAdornment={endAdornment}
-              />
-            </Box>
+            {errorMessage && <Alert severity="warning">{errorMessage}</Alert>}
+            <br/>
+            <TextField
+              fullWidth
+              value={values.username}
+              type="text"
+              name="username"
+              variant="outlined"
+              label="Username"
+              onChange={handleChange}
+              error={Boolean(touched.username && errors.username)}
+              helperText={touched.username && errors.username}
+              onBlur={handleBlur}
+            />
+            <TextField
+              fullWidth
+              value={values.firstName}
+              type="text"
+              name="firstName"
+              variant="outlined"
+              label="First Name"
+              onChange={handleChange}
+              error={Boolean(touched.firstName && errors.firstName)}
+              helperText={touched.firstName && errors.firstName}
+              onBlur={handleBlur}
+            />
+            <TextField
+              fullWidth
+              value={values.lastName}
+              type="text"
+              name="lastName"
+              variant="outlined"
+              label="Last Name"
+              onChange={handleChange}
+              error={Boolean(touched.lastName && errors.lastName)}
+              helperText={touched.lastName && errors.lastName}
+              onBlur={handleBlur}
+            />
+            <TextField
+              fullWidth
+              value={values.email}
+              type="email"
+              name="email"
+              variant="outlined"
+              label="Email"
+              onChange={handleChange}
+              error={Boolean(touched.email && errors.email)}
+              helperText={touched.email && errors.email}
+              onBlur={handleBlur}
+            />
+            <TextField
+              fullWidth
+              variant="outlined"
+              type={showPass ? "text" : "password"}
+              name="password"
+              label="Password"
+              value={values.password}
+              error={Boolean(touched.password && errors.password)}
+              helperText={touched.password && errors.password}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              {...inputProps}
+            />
+            <TextField
+              fullWidth
+              variant="outlined"
+              type={showPass ? "text" : "password"}
+              name="confirmPassword"
+              label="Confirm password"
+              value={values.confirmPassword}
+              error={Boolean(touched.confirmPassword && errors.confirmPassword)}
+              helperText={touched.confirmPassword && errors.confirmPassword}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              {...inputProps}
+            />
             <ButtonBox>
               <SubmitButton
                 type="submit"

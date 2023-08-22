@@ -24,7 +24,6 @@ function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };

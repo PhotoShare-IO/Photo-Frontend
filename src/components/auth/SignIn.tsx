@@ -1,19 +1,20 @@
-import { useState } from "react";
-import { Formik } from "formik";
+import {useState} from "react";
+import {Formik} from "formik";
 import {
   Box,
   styled,
   IconButton,
+  Alert,
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import * as Yup from "yup";
-import {axiosInstance} from "../../services/axios";
 import {useDispatch} from "react-redux";
+import {Login} from "./types";
+import {signIn} from "../../utils/auth/signIn";
 import {setCredentials} from "../../redux/auth";
-import { Login } from "./types";
 import TextField from "../../UI/TextField";
 
 const SubmitButton = styled(LoadingButton)(() => ({
@@ -29,10 +30,10 @@ const ButtonBox = styled(Box)(() => ({
 }));
 
 function SignIn() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showPass, setShowPass] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const dispatch = useDispatch();
 
   const handleClickShowPassword = () => {
     setShowPass((prevShowPass) => !prevShowPass);
@@ -41,19 +42,6 @@ function SignIn() {
   const handleMouseDownPassword = (event: any) => {
     event.preventDefault();
   };
-
-  const signIn = async (email: string, password: string): Promise<void> => {
-    try {
-      delete axiosInstance.defaults.headers.common.Authorization;
-      const response = await axiosInstance.post("/api/auth/login/", {
-        email,
-        password,
-      });
-      dispatch(setCredentials(response.data))
-    } catch (e: any) {
-      setErrorMessage(e?.message)
-    }
-  }
 
   const initialValues: Login = {
     email: "",
@@ -72,39 +60,34 @@ function SignIn() {
           password: Yup.string().max(255).required("Password is required"),
         })}
         onSubmit={async (values) => {
-          try {
-            await signIn(values.email, values.password);
-            navigate("/");
-          } catch (error) {
-            console.log(error);
-          }
+          const response = await signIn(values.email, values.password, dispatch, setErrorMessage);
+          if (response?.status === 200) navigate("/");
         }}
       >
         {({
-          values,
-          handleBlur,
-          handleChange,
-          handleSubmit,
-          isSubmitting,
-          touched,
-          errors,
-        }) => (
+            values,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+            isSubmitting,
+            touched,
+            errors,
+          }) => (
           <form noValidate onSubmit={handleSubmit}>
-            {errorMessage}
-            <Box>
-              <TextField
-                fullWidth
-                value={values.email}
-                type="email"
-                name="email"
-                variant="standard"
-                label="Email"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={Boolean(touched.email && errors.email)}
-                helperText={touched.email && errors.email}
-              />
-            </Box>
+            {errorMessage && <Alert severity="warning">{errorMessage}</Alert>}
+            <br/>
+            <TextField
+              fullWidth
+              value={values.email}
+              type="email"
+              name="email"
+              variant="outlined"
+              label="Email"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={Boolean(touched.email && errors.email)}
+              helperText={touched.email && errors.email}
+            />
             <Box sx={{ position: "relative" }}>
               <TextField
                 fullWidth
@@ -131,7 +114,7 @@ function SignIn() {
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
               >
-                {showPass ? <VisibilityOff /> : <Visibility />}
+                {showPass ? <VisibilityOff/> : <Visibility/>}
               </IconButton>
             </Box>
             <ButtonBox>
