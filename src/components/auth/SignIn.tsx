@@ -4,7 +4,7 @@ import {
   Box,
   styled,
   IconButton,
-  Alert,
+  Alert, InputAdornment,
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -14,7 +14,6 @@ import * as Yup from "yup";
 import {useDispatch} from "react-redux";
 import {Login} from "./types";
 import {signIn} from "../../utils/auth/signIn";
-import {setCredentials} from "../../redux/auth";
 import TextField from "../../UI/TextField";
 
 const SubmitButton = styled(LoadingButton)(() => ({
@@ -48,6 +47,19 @@ function SignIn() {
     password: "",
   };
 
+  const endAdornment = (
+    <InputAdornment position="end">
+      <IconButton
+        aria-label="toggle password visibility"
+        onClick={handleClickShowPassword}
+        onMouseDown={handleMouseDownPassword}
+        edge="end"
+      >
+        {showPass ? <VisibilityOff/> : <Visibility/>}
+      </IconButton>
+    </InputAdornment>
+  );
+
   return (
     <Box>
       <Formik
@@ -74,8 +86,7 @@ function SignIn() {
             errors,
           }) => (
           <form noValidate onSubmit={handleSubmit}>
-            {errorMessage && <Alert severity="warning">{errorMessage}</Alert>}
-            <br/>
+            {errorMessage && <Alert sx={{margin: "10px 0"}} severity="warning">{errorMessage}</Alert>}
             <TextField
               fullWidth
               value={values.email}
@@ -100,22 +111,8 @@ function SignIn() {
                 onBlur={handleBlur}
                 error={Boolean(touched.password && errors.password)}
                 helperText={touched.password && errors.password}
+                endAdornment={endAdornment}
               />
-              <IconButton
-                sx={{
-                  "& .MuiSvgIcon-root": {
-                    fontSize: "18px",
-                  },
-                  padding: "3px",
-                  position: "absolute",
-                  top: 35,
-                  right: 10,
-                }}
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-              >
-                {showPass ? <VisibilityOff/> : <Visibility/>}
-              </IconButton>
             </Box>
             <ButtonBox>
               <SubmitButton

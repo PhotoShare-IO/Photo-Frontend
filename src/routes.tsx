@@ -1,4 +1,4 @@
-import Home from "./components/home/Home";
+import Home from "./components/startpage/Home";
 import Auth from "./layouts/Auth";
 import BaseTemplate from "./layouts/BaseTemplate";
 import AuthGuard from "./layouts/guards/AuthGuard";
@@ -6,7 +6,6 @@ import SignIn from "./pages/auth/SignIn";
 import SignUp from "./pages/auth/SignUp";
 import NonFound from "./components/NonFound";
 import BaseGuard from "./layouts/guards/BaseGuard";
-import {Navigate} from "react-router-dom";
 
 const routes = [
   {
@@ -18,7 +17,7 @@ const routes = [
     ),
     children: [
       {
-        path: "home",
+        path: "",
         element: <Home/>,
       },
       {
