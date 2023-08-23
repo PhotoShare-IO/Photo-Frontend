@@ -15,15 +15,7 @@ import * as Yup from "yup";
 import {useDispatch} from "react-redux";
 import {signUp} from "../../utils/auth/signUp";
 import {signIn} from "../../utils/auth/signIn";
-
-interface Register {
-  username: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
+import { Register } from "./types";
 
 const SubmitButton = styled(LoadingButton)(() => ({
   width: "200px",
@@ -123,8 +115,7 @@ function SignUp() {
             errors,
           }) => (
           <form noValidate onSubmit={handleSubmit}>
-            {errorMessage && <Alert severity="warning">{errorMessage}</Alert>}
-            <br/>
+            {errorMessage && <Alert sx={{margin: "10px 0"}} severity="warning">{errorMessage}</Alert>}
             <TextField
               fullWidth
               value={values.username}
@@ -184,7 +175,7 @@ function SignUp() {
               helperText={touched.password && errors.password}
               onBlur={handleBlur}
               onChange={handleChange}
-              {...inputProps}
+              endAdornment={endAdornment}
             />
             <TextField
               fullWidth
@@ -197,7 +188,7 @@ function SignUp() {
               helperText={touched.confirmPassword && errors.confirmPassword}
               onBlur={handleBlur}
               onChange={handleChange}
-              {...inputProps}
+              endAdornment={endAdornment}
             />
             <ButtonBox>
               <SubmitButton

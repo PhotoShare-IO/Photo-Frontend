@@ -30,3 +30,16 @@ export interface setCredentialsAction {
     type: "auth/setCredentials",
     payload: LoginData
 }
+
+export type Post = {
+    album?: number,
+    file_url: string,
+    name: string,
+    description: string,
+}
+
+export interface Posts {
+    isLoading: boolean,
+    isError: boolean,
+    posts: Post[],
+}

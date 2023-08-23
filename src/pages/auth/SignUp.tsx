@@ -5,24 +5,22 @@ import {COLORS} from "../../theme/colors";
 import * as React from "react";
 
 const Wrapper = styled(Box)(() => ({
-  width: "100%",
+  minWidth: "320px",
   height: "calc(100vh - 64px)",
   display: "flex",
-  justifyContent: "center",
   alignItems: "center",
 }));
 
 const FormBox = styled(Paper)(() => ({
   width: "320px",
-  minHeight: "640px",
-  padding: "40px",
+  padding: "30px",
   border: `1px dashed ${COLORS.main}`,
+  opacity: ".96"
 }));
 
 const Title = styled(Box)(() => ({
   fontWeight: 700,
   textAlign: "center",
-  margin: "15px",
 }));
 
 const ForgotPassword = styled(Typography)(() => ({

@@ -1,7 +1,7 @@
 export const COLORS = {
-  main: "#c31952",
-  mainHover: "#e33f78",
-  mainActive: "#a1103e",
+  main: "#618c7b",
+  mainHover: "#7ba698",
+  mainActive: "#4a7563",
 
   gray: "#ced4da",
   grayHover: "#919398",

@@ -15,7 +15,10 @@ import {AccountCircle} from "@mui/icons-material";
 const HeaderBar = styled(AppBar)(() => ({
   boxShadow: "none",
   backgroundColor: "transparent",
-  color: "#c31952"
+  color: "#618c7b",
+  backdropFilter: "blur(5px)",
+  "-webkit-backdrop-filter": "blur(5px)",
+  borderRadius: 0,
 }));
 
 function Header() {
@@ -44,6 +47,7 @@ function Header() {
           {user && user.id
             ?
             <>
+              <Button sx={{marginRight: "20px"}} variant="contained">Create post</Button>
               <Typography>{formatUserName(user?.first_name, user?.last_name)}</Typography>
               <Box sx={{marginLeft: "15px"}}>
                 <IconButton
@@ -79,12 +83,12 @@ function Header() {
             <>
               <Box sx={{marginRight: "15px"}}>
                 <Button variant="contained" color="primary">
-                  <Link style={{ color: "inherit", textDecoration: "none" }} to="/auth/login">Login</Link>
+                  <Link style={{color: "inherit", textDecoration: "none"}} to="/auth/login">Login</Link>
                 </Button>
               </Box>
               <Box>
                 <Button variant="contained" color="primary">
-                  <Link style={{ color: "inherit", textDecoration: "none" }} to="/auth/register">Register</Link>
+                  <Link style={{color: "inherit", textDecoration: "none"}} to="/auth/register">Register</Link>
                 </Button>
               </Box>
             </>
