@@ -1,19 +1,15 @@
-import {useState} from "react";
-import {Formik} from "formik";
-import {
-  Box,
-  styled,
-  IconButton,
-  Alert, InputAdornment,
-} from "@mui/material";
+import React from "react";
+import { useState } from "react";
+import { Formik } from "formik";
+import { Box, styled, IconButton, Alert, InputAdornment } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LoadingButton from "@mui/lab/LoadingButton";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import {useDispatch} from "react-redux";
-import {Login} from "./types";
-import {signIn} from "../../utils/auth/signIn";
+import { useDispatch } from "react-redux";
+import { Login } from "./types";
+import { signIn } from "../../utils/auth/signIn";
 import TextField from "../../UI/TextField";
 
 const SubmitButton = styled(LoadingButton)(() => ({
@@ -55,7 +51,7 @@ function SignIn() {
         onMouseDown={handleMouseDownPassword}
         edge="end"
       >
-        {showPass ? <VisibilityOff/> : <Visibility/>}
+        {showPass ? <VisibilityOff /> : <Visibility />}
       </IconButton>
     </InputAdornment>
   );
@@ -72,21 +68,30 @@ function SignIn() {
           password: Yup.string().max(255).required("Password is required"),
         })}
         onSubmit={async (values) => {
-          const response = await signIn(values.email, values.password, dispatch, setErrorMessage);
+          const response = await signIn(
+            values.email,
+            values.password,
+            dispatch,
+            setErrorMessage,
+          );
           if (response?.status === 200) navigate("/");
         }}
       >
         {({
-            values,
-            handleBlur,
-            handleChange,
-            handleSubmit,
-            isSubmitting,
-            touched,
-            errors,
-          }) => (
+          values,
+          handleBlur,
+          handleChange,
+          handleSubmit,
+          isSubmitting,
+          touched,
+          errors,
+        }) => (
           <form noValidate onSubmit={handleSubmit}>
-            {errorMessage && <Alert sx={{margin: "10px 0"}} severity="warning">{errorMessage}</Alert>}
+            {errorMessage && (
+              <Alert sx={{ margin: "10px 0" }} severity="warning">
+                {errorMessage}
+              </Alert>
+            )}
             <TextField
               fullWidth
               value={values.email}

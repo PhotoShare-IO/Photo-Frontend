@@ -1,21 +1,21 @@
+import React from "react";
 import LinkToSignUp from "../../components/auth/LinkToSignUp";
 import SignInComponent from "../../components/auth/SignIn";
-import {Paper, Box, styled, Typography} from "@mui/material";
-import {COLORS} from "../../theme/colors";
-import * as React from "react";
+import { Paper, Box, styled, Typography } from "@mui/material";
+import { COLORS } from "../../theme/colors";
 
 const Wrapper = styled(Box)(() => ({
   minWidth: "320px",
   height: "calc(100vh - 64px)",
   display: "flex",
-  alignItems: "center"
+  alignItems: "center",
 }));
 
 const FormBox = styled(Paper)(() => ({
   width: "320px",
   border: `1px dashed ${COLORS.main}`,
   padding: "30px",
-  opacity: ".96"
+  opacity: ".96",
 }));
 
 const Title = styled(Box)(() => ({
@@ -41,12 +41,12 @@ function SignIn() {
           </Box>
           <Typography variant="h4">Welcome!</Typography>
         </Title>
-        <SignInComponent/>
+        <SignInComponent />
         <Box>
           <ForgotPassword variant="subtitle2">Forgot password?</ForgotPassword>
         </Box>
-        <Box sx={{textAlign: "center", mt: 2}}>
-          <LinkToSignUp/>
+        <Box sx={{ textAlign: "center", mt: 2 }}>
+          <LinkToSignUp />
         </Box>
       </FormBox>
     </Wrapper>

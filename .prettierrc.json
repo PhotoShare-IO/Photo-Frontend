@@ -1,0 +1,10 @@
+{
+  "semi": true,
+  "useTabs": false,
+  "singleQuote": false,
+  "tabWidth": 2,
+  "organizeImportsSkipDestructiveCodeActions": true,
+  "importOrder": ["^components/(.*)$", "^[./]" ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
+}

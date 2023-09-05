@@ -1,24 +1,29 @@
 import axios from "axios";
 import * as qs from "qs";
-import {getAccessToken, getRefreshToken, setAccessToken, setRefreshToken} from "./tokens";
+import {
+  getAccessToken,
+  getRefreshToken,
+  setAccessToken,
+  setRefreshToken,
+} from "./tokens";
 
 export const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   params: {},
   paramsSerializer: (params) => {
-    return qs.stringify(params, {arrayFormat: "comma"});
+    return qs.stringify(params, { arrayFormat: "comma" });
   },
 });
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = getAccessToken()
+    const token = getAccessToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => Promise.reject()
+  () => Promise.reject(),
 );
 
 axiosInstance.interceptors.response.use(
@@ -33,9 +38,9 @@ axiosInstance.interceptors.response.use(
 
         try {
           const rs = await axiosInstance.post("/api/auth/token/refresh/", {
-            refresh: getRefreshToken()
+            refresh: getRefreshToken(),
           });
-          const {access, refresh} = rs.data;
+          const { access, refresh } = rs.data;
           setAccessToken(access);
           setRefreshToken(refresh);
           prevReq.headers.Authorization = `Bearer ${access}`;

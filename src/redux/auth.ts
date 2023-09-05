@@ -1,6 +1,10 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {Auth, LoginData} from "./types";
-import {removeTokens, setAccessToken, setRefreshToken} from "../services/tokens";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Auth, LoginData } from "./types";
+import {
+  removeTokens,
+  setAccessToken,
+  setRefreshToken,
+} from "../services/tokens";
 
 const initialState: Auth = {
   token: "",
@@ -13,7 +17,7 @@ const initialState: Auth = {
     profile_photo: "",
     is_staff: false,
     is_superuser: false,
-  }
+  },
 };
 
 const authSlice = createSlice({
@@ -21,11 +25,11 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setCredentials: (state, action: PayloadAction<LoginData>): void => {
-      const {tokens} = action.payload;
+      const { tokens } = action.payload;
       if (tokens && tokens.access && tokens.refresh) {
         localStorage.clear();
-        setAccessToken(tokens.access)
-        setRefreshToken(tokens.refresh)
+        setAccessToken(tokens.access);
+        setRefreshToken(tokens.refresh);
         state.token = tokens.access;
       }
       const { id, email, username, first_name, last_name } = action.payload;
@@ -41,13 +45,13 @@ const authSlice = createSlice({
       };
     },
     logOut: (): Auth => {
-      removeTokens()
+      removeTokens();
       return initialState;
-    }
+    },
   },
 });
 
-export const {setCredentials, logOut} = authSlice.actions;
+export const { setCredentials, logOut } = authSlice.actions;
 
 export const selectUser = (state: any) => state.auth.user; // TODO: change state ts-type
 

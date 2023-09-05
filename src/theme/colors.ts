@@ -9,4 +9,4 @@ export const COLORS = {
   red: "#F7685B",
   redHover: "#fc8c82",
   redPressed: "#f94e3e",
-}
+};

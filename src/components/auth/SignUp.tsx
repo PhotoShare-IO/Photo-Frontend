@@ -1,20 +1,16 @@
-import {useState} from "react";
-import {Formik} from "formik";
-import {
-  Box,
-  styled,
-  InputAdornment,
-  IconButton, Alert,
-} from "@mui/material";
+import React from "react";
+import { useState } from "react";
+import { Formik } from "formik";
+import { Box, styled, InputAdornment, IconButton, Alert } from "@mui/material";
 import TextField from "../../UI/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LoadingButton from "@mui/lab/LoadingButton";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import {useDispatch} from "react-redux";
-import {signUp} from "../../utils/auth/signUp";
-import {signIn} from "../../utils/auth/signIn";
+import { useDispatch } from "react-redux";
+import { signUp } from "../../utils/auth/signUp";
+import { signIn } from "../../utils/auth/signIn";
 import { Register } from "./types";
 
 const SubmitButton = styled(LoadingButton)(() => ({
@@ -51,7 +47,7 @@ function SignUp() {
         onMouseDown={handleMouseDownPassword}
         edge="end"
       >
-        {showPass ? <VisibilityOff/> : <Visibility/>}
+        {showPass ? <VisibilityOff /> : <Visibility />}
       </IconButton>
     </InputAdornment>
   );
@@ -81,13 +77,15 @@ function SignUp() {
             .min(8, "Must be at least 12 characters")
             .max(255)
             .required("Password is required"),
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           //@ts-ignore
           confirmPassword: Yup.string().when("password", {
             is: (val: string) => !!(val && val.length > 0),
-            then: () => Yup.string().oneOf(
-              [Yup.ref("password")],
-              "Both password need to be the same"
-            ),
+            then: () =>
+              Yup.string().oneOf(
+                [Yup.ref("password")],
+                "Both password need to be the same",
+              ),
           }),
         })}
         onSubmit={async (values) => {
@@ -100,22 +98,31 @@ function SignUp() {
             setErrorMessage,
           );
           if (response?.status === 200) {
-            const res = await signIn(values.email, values.password, dispatch, setErrorMessage);
+            const res = await signIn(
+              values.email,
+              values.password,
+              dispatch,
+              setErrorMessage,
+            );
             if (res?.status === 200) navigate("/");
           }
         }}
       >
         {({
-            values,
-            handleBlur,
-            handleChange,
-            handleSubmit,
-            isSubmitting,
-            touched,
-            errors,
-          }) => (
+          values,
+          handleBlur,
+          handleChange,
+          handleSubmit,
+          isSubmitting,
+          touched,
+          errors,
+        }) => (
           <form noValidate onSubmit={handleSubmit}>
-            {errorMessage && <Alert sx={{margin: "10px 0"}} severity="warning">{errorMessage}</Alert>}
+            {errorMessage && (
+              <Alert sx={{ margin: "10px 0" }} severity="warning">
+                {errorMessage}
+              </Alert>
+            )}
             <TextField
               fullWidth
               value={values.username}

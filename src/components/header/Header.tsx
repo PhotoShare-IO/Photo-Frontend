@@ -1,16 +1,16 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import {Menu, MenuItem, styled} from "@mui/material";
-import {useDispatch, useSelector} from "react-redux";
-import {logOut, selectUser} from "../../redux/auth";
-import {formatUserName} from "../../utils/formatUserName";
-import {Link, useNavigate} from "react-router-dom";
-import {AccountCircle} from "@mui/icons-material";
+import React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import { Menu, MenuItem, styled } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut, selectUser } from "../../redux/auth";
+import { formatUserName } from "../../utils/formatUserName";
+import { Link, useNavigate } from "react-router-dom";
+import { AccountCircle } from "@mui/icons-material";
 
 const HeaderBar = styled(AppBar)(() => ({
   boxShadow: "none",
@@ -38,18 +38,21 @@ function Header() {
   };
 
   return (
-    <Box sx={{flexGrow: 1}}>
+    <Box sx={{ flexGrow: 1 }}>
       <HeaderBar position="fixed">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <b>Ph-Sh</b>
           </Typography>
-          {user && user.id
-            ?
+          {user && user.id ? (
             <>
-              <Button sx={{marginRight: "20px"}} variant="contained">Create post</Button>
-              <Typography>{formatUserName(user?.first_name, user?.last_name)}</Typography>
-              <Box sx={{marginLeft: "15px"}}>
+              <Button sx={{ marginRight: "20px" }} variant="contained">
+                Create post
+              </Button>
+              <Typography>
+                {formatUserName(user?.first_name, user?.last_name)}
+              </Typography>
+              <Box sx={{ marginLeft: "15px" }}>
                 <IconButton
                   size="large"
                   aria-label="account of current user"
@@ -58,19 +61,19 @@ function Header() {
                   onClick={handleMenu}
                   color="inherit"
                 >
-                  <AccountCircle/>
+                  <AccountCircle />
                 </IconButton>
                 <Menu
                   id="menu-appbar"
                   anchorEl={anchorEl}
                   anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
+                    vertical: "top",
+                    horizontal: "right",
                   }}
                   keepMounted
                   transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
+                    vertical: "top",
+                    horizontal: "right",
                   }}
                   open={Boolean(anchorEl)}
                   onClose={() => setAnchorEl(null)}
@@ -79,20 +82,30 @@ function Header() {
                 </Menu>
               </Box>
             </>
-            :
+          ) : (
             <>
-              <Box sx={{marginRight: "15px"}}>
+              <Box sx={{ marginRight: "15px" }}>
                 <Button variant="contained" color="primary">
-                  <Link style={{color: "inherit", textDecoration: "none"}} to="/auth/login">Login</Link>
+                  <Link
+                    style={{ color: "inherit", textDecoration: "none" }}
+                    to="/auth/login"
+                  >
+                    Login
+                  </Link>
                 </Button>
               </Box>
               <Box>
                 <Button variant="contained" color="primary">
-                  <Link style={{color: "inherit", textDecoration: "none"}} to="/auth/register">Register</Link>
+                  <Link
+                    style={{ color: "inherit", textDecoration: "none" }}
+                    to="/auth/register"
+                  >
+                    Register
+                  </Link>
                 </Button>
               </Box>
             </>
-          }
+          )}
         </Toolbar>
       </HeaderBar>
     </Box>

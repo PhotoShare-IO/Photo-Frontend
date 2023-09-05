@@ -1,5 +1,6 @@
-import {Box, styled} from "@mui/material";
-import {Outlet} from "react-router-dom";
+import React from "react";
+import { Box, styled } from "@mui/material";
+import { Outlet } from "react-router-dom";
 
 const Wrapper = styled(Box)(() => ({
   display: "flex",
@@ -14,13 +15,13 @@ const Image = styled("img")(() => ({
   position: "absolute",
   zIndex: -1,
   // filter: "blur(3px)"
-}))
+}));
 
 function Auth() {
   return (
     <Wrapper>
-      <Image src="/images/authLayoutImage.jpg" alt=""/>
-      <Outlet/>
+      <Image src="/images/authLayoutImage.jpg" alt="" />
+      <Outlet />
     </Wrapper>
   );
 }

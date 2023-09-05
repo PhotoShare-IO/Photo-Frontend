@@ -1,3 +1,4 @@
+import React from "react";
 import Home from "./components/startpage/Home";
 import Auth from "./layouts/Auth";
 import BaseTemplate from "./layouts/BaseTemplate";
@@ -12,42 +13,42 @@ const routes = [
     path: "/",
     element: (
       <AuthGuard>
-        <BaseTemplate/>
+        <BaseTemplate />
       </AuthGuard>
     ),
     children: [
       {
         path: "",
-        element: <Home/>,
+        element: <Home />,
       },
       {
         path: "*",
-        element: <NonFound/>,
-      }
+        element: <NonFound />,
+      },
     ],
   },
   {
     path: "auth",
     element: (
       <BaseGuard>
-        <Auth/>
+        <Auth />
       </BaseGuard>
     ),
     children: [
       {
         path: "login",
-        element: <SignIn/>,
+        element: <SignIn />,
       },
       {
         path: "register",
-        element: <SignUp/>,
+        element: <SignUp />,
       },
     ],
   },
   {
     path: "*",
-    element: <NonFound/>,
-  }
+    element: <NonFound />,
+  },
 ];
 
 export default routes;

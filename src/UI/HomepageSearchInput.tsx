@@ -1,8 +1,8 @@
-import React from 'react';
-import {Autocomplete, styled} from "@mui/material";
+import React from "react";
+import { Autocomplete, styled } from "@mui/material";
 import TextField from "./TextField";
-import SearchIcon from '@mui/icons-material/Search';
-import {COLORS} from "../theme/colors";
+import SearchIcon from "@mui/icons-material/Search";
+import { COLORS } from "../theme/colors";
 
 const SearchInput = styled(Autocomplete)(() => ({
   backgroundColor: "#fff",
@@ -13,7 +13,8 @@ const SearchInput = styled(Autocomplete)(() => ({
   "& .MuiInputBase-root": {
     borderRadius: 5,
     border: "2px solid #fff",
-    "&:focus": {  // TODO: add focus border of main color
+    "&:focus": {
+      // TODO: add focus border of main color
       borderColor: COLORS.main,
     },
   },
@@ -28,7 +29,7 @@ const SearchInput = styled(Autocomplete)(() => ({
   },
   "& .MuiSvgIcon-root": {
     marginLeft: "10px",
-  }
+  },
 }));
 
 function HomepageSearchInput() {

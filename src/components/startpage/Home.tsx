@@ -1,12 +1,13 @@
-import {Box, styled, Typography} from "@mui/material";
-import {useDispatch, useSelector} from "react-redux";
-import {selectUser, setCredentials} from "../../redux/auth";
-import {useEffect} from "react";
-import {axiosInstance} from "../../services/axios";
+import React from "react";
+import { Box, styled, Typography } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser, setCredentials } from "../../redux/auth";
+import { useEffect } from "react";
+import { axiosInstance } from "../../services/axios";
 import HomepageSearchInput from "../../UI/HomepageSearchInput";
-import {AxiosResponse} from "axios";
-import {LoginData, Post, User} from "../../redux/types";
-import {fetchPosts, selectPosts} from "../../redux/posts";
+import { AxiosResponse } from "axios";
+import { LoginData, Post, User } from "../../redux/types";
+import { fetchPosts, selectPosts } from "../../redux/posts";
 
 const StartImage = styled("img")(() => ({
   width: "100vw",
@@ -26,7 +27,7 @@ const ImageBox = styled(Box)(() => ({
 }));
 
 const LogoImage = styled("img")(() => ({
-  color: "#fff",  // TODO: change logo color to white (error)
+  color: "#fff", // TODO: change logo color to white (error)
   width: "400px",
   marginBottom: "60px",
 }));
@@ -45,12 +46,12 @@ const Container = styled(Box)(() => ({
   "@media (max-width: 480px)": {
     columns: 1,
   },
-}))
+}));
 
 const Item = styled(Box)(() => ({
   width: "100%",
   marginBottom: "10px",
-}))
+}));
 
 const Image = styled("img")(() => ({
   maxWidth: "100%",
@@ -58,45 +59,46 @@ const Image = styled("img")(() => ({
 }));
 
 function Home() {
-  const user: User = useSelector(selectUser)
+  const user: User = useSelector(selectUser);
   const dispatch = useDispatch();
   const posts: Post[] = useSelector(selectPosts);
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     dispatch(fetchPosts()); // TODO: remove ts-ignore
-  }, [dispatch])
+  }, [dispatch]);
 
   useEffect(() => {
     if (!user.id) {
       const fetchUser = async () => {
         try {
-          const response: AxiosResponse<LoginData> = await axiosInstance.get("/api/auth/user/")
-          dispatch(setCredentials(response?.data))
+          const response: AxiosResponse<LoginData> =
+            await axiosInstance.get("/api/auth/user/");
+          dispatch(setCredentials(response?.data));
         } catch (e: unknown) {
-          console.log(e)
+          console.log(e);
         }
-      }
+      };
       fetchUser();
     }
-  }, [dispatch, user])
+  }, [dispatch, user]);
 
   return (
     <Box>
       <ImageBox>
-        <StartImage src="/images/homepage.jpg" alt=""/>
-        <Box sx={{marginTop: "150px"}}>
-          <Typography sx={{textAlign: "center"}}><LogoImage src="/images/logo.svg" alt="logo"/></Typography>
-          <HomepageSearchInput/>
+        <StartImage src="/images/homepage.jpg" alt="" />
+        <Box sx={{ marginTop: "150px" }}>
+          <Typography sx={{ textAlign: "center" }}>
+            <LogoImage src="/images/logo.svg" alt="logo" />
+          </Typography>
+          <HomepageSearchInput />
         </Box>
       </ImageBox>
       <Container>
-        {posts?.map((post: Post) => (
-          <Item>
-            <Image
-              src={post?.file_url}
-              alt="Picture"
-            />
+        {posts?.map((post: Post, idx) => (
+          <Item key={idx}>
+            <Image src={post?.file_url} alt="Picture" />
           </Item>
         ))}
         {/*<Item>*/}

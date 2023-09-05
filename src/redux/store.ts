@@ -4,7 +4,7 @@ import posts from "./posts";
 
 const rootReducer = combineReducers({
   auth,
-  posts
+  posts,
 });
 
 export const store = configureStore({ reducer: rootReducer });

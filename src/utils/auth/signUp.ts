@@ -1,6 +1,6 @@
-import {axiosInstance} from "../../services/axios";
-import {AxiosResponse} from "axios";
-import {Dispatch, SetStateAction} from "react";
+import { axiosInstance } from "../../services/axios";
+import { AxiosResponse } from "axios";
+import { Dispatch, SetStateAction } from "react";
 
 interface RegisterData {
   id: number;
@@ -10,7 +10,7 @@ interface RegisterData {
   tokens: {
     access: string;
     refresh: string;
-  }
+  };
 }
 
 export const signUp = async (
@@ -19,7 +19,7 @@ export const signUp = async (
   lastName: string,
   email: string,
   password: string,
-  setErrorMessage: Dispatch<SetStateAction<string>>
+  setErrorMessage: Dispatch<SetStateAction<string>>,
 ): Promise<AxiosResponse<RegisterData> | undefined> => {
   try {
     delete axiosInstance.defaults.headers.common.Authorization;
@@ -32,6 +32,6 @@ export const signUp = async (
     });
     return response;
   } catch (e: any) {
-    setErrorMessage(e?.response?.data?.detail)
+    setErrorMessage(e?.response?.data?.detail);
   }
-}
+};

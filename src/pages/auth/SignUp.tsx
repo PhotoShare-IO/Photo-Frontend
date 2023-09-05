@@ -1,8 +1,8 @@
+import React from "react";
 import LinkToSignIn from "../../components/auth/LinkToSignIn";
 import SignUpComponent from "../../components/auth/SignUp";
 import { Paper, Box, styled, Typography } from "@mui/material";
-import {COLORS} from "../../theme/colors";
-import * as React from "react";
+import { COLORS } from "../../theme/colors";
 
 const Wrapper = styled(Box)(() => ({
   minWidth: "320px",
@@ -15,7 +15,7 @@ const FormBox = styled(Paper)(() => ({
   width: "320px",
   padding: "30px",
   border: `1px dashed ${COLORS.main}`,
-  opacity: ".96"
+  opacity: ".96",
 }));
 
 const Title = styled(Box)(() => ({
