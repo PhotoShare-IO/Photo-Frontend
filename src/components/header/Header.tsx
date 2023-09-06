@@ -11,18 +11,21 @@ import { logOut, selectUser } from "../../redux/auth";
 import { formatUserName } from "../../utils/formatUserName";
 import { Link, useNavigate } from "react-router-dom";
 import { AccountCircle } from "@mui/icons-material";
+import { useState } from "react";
+import CreatePost from "../createPost/CreatePost";
 
 const HeaderBar = styled(AppBar)(() => ({
   boxShadow: "none",
   backgroundColor: "transparent",
   color: "#618c7b",
   backdropFilter: "blur(5px)",
-  "-webkit-backdrop-filter": "blur(5px)",
+  WebkitBackdropFilter: "blur(5px)",
   borderRadius: 0,
 }));
 
 function Header() {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [open, setOpen] = useState<boolean>(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,6 +40,10 @@ function Header() {
     navigate("/auth/login");
   };
 
+  const createPost = () => {
+    setOpen(true);
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <HeaderBar position="fixed">
@@ -46,7 +53,11 @@ function Header() {
           </Typography>
           {user && user.id ? (
             <>
-              <Button sx={{ marginRight: "20px" }} variant="contained">
+              <Button
+                sx={{ marginRight: "20px" }}
+                variant="contained"
+                onClick={createPost}
+              >
                 Create post
               </Button>
               <Typography>
@@ -81,6 +92,7 @@ function Header() {
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </Menu>
               </Box>
+              <CreatePost open={open} setOpen={setOpen} />
             </>
           ) : (
             <>

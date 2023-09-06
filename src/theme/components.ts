@@ -36,6 +36,11 @@ export const components = {
           borderColor: COLORS.grayHover,
         },
       },
+      multiline: {
+        "& textarea": {
+          borderRadius: 15,
+        },
+      },
     },
   },
   MuiInputLabel: {
