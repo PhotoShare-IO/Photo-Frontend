@@ -10,10 +10,10 @@ import { COLORS } from "../theme/colors";
 import ErrorIcon from "@mui/icons-material/Error";
 
 interface Props extends InputBaseProps {
-  label: string;
+  label?: string;
   helperText?: string | false;
   variant: "standard" | "filled" | "outlined";
-  fullWidth: boolean;
+  fullWidth?: boolean;
 }
 
 function TextField({ label, helperText, variant, fullWidth, ...rest }: Props) {
