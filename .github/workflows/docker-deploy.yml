@@ -1,0 +1,46 @@
+name: Deploy Docker to the DockerHub
+on:
+  push:
+    branches:
+      ["main"]
+
+jobs:
+  build-docker:
+    runs-on: ubuntu-latest
+    name: Build Docker
+
+    strategy:
+      matrix:
+        node-version: [18.17.1]
+
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      -
+        name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      -
+        name: Get project version
+        run: echo "APP_VERSION=$(yarn version -v)" >> $GITHUB_ENV
+      -
+        name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/photo-react:${{ env.APP_VERSION }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/photo-react:latest
