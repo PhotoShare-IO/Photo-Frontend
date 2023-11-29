@@ -8,19 +8,19 @@ export const typography: TypographyOptions = {
   fontWeightMedium: 500,
   fontWeightBold: 600,
   h1: {
-    fontSize: "20px",
+    fontSize: "48px",
     lineHeight: "30px",
     letterSpacing: "0.1px",
     fontWeight: 500,
   },
   h2: {
-    fontSize: "18px",
+    fontSize: "32px",
     lineHeight: "28px",
     letterSpacing: "0.1px",
     fontWeight: "500",
   },
   h3: {
-    fontSize: "15px",
+    fontSize: "24px",
     lineHeight: "23px",
     letterSpacing: "0.1px",
     fontWeight: "500",

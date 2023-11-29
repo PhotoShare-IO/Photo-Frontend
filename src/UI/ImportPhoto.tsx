@@ -1,16 +1,14 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import { Box, InputLabel, styled, Typography } from "@mui/material";
 import { COLORS } from "../theme/colors";
 import ImageTwoToneIcon from "@mui/icons-material/ImageTwoTone";
-
-const ImportField = styled("input")(() => ({
-  display: "none",
-}));
+import { useDropzone } from "react-dropzone";
 
 const UploadLabel = styled(InputLabel)(() => ({
   cursor: "pointer",
   width: "250px",
   height: "350px",
+  textAlign: "center",
   backgroundColor: COLORS.lightGray,
   border: `2px dashed ${COLORS.gray}`,
   borderRadius: 15,
@@ -31,6 +29,8 @@ const InputContent = styled(Box)(() => ({
   alignItems: "center",
   justifyContent: "center",
   height: "100%",
+  backgroundPosition: "center",
+  backgroundSize: "cover",
 }));
 
 const ImageIcon = styled(ImageTwoToneIcon)(() => ({
@@ -43,30 +43,41 @@ const Text = styled(Typography)(() => ({
 }));
 
 function ImportPhoto() {
-  const [image, setImage] = useState<string>(" ");
+  const inputContent: React.MutableRefObject<HTMLElement | null> = useRef(null);
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+    accept: {
+      "image/jpeg": [],
+      "image/png": [],
+    },
+  });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const image = e.target.files?.[0];
-    if (image) {
-      const imageUrl = URL.createObjectURL(image);
-      console.log(imageUrl);
-      setImage(imageUrl);
+  useEffect(() => {
+    setPhoto(acceptedFiles[0]);
+  }, [acceptedFiles]);
+
+  const setPhoto = (image: File | undefined) => {
+    if (image && inputContent.current) {
+      inputContent.current.style.backgroundImage = `url(${URL.createObjectURL(
+        image,
+      )})`;
+      inputContent.current.textContent = "";
+      inputContent.current.style.border = "0";
     }
   };
 
   return (
-    <UploadLabel htmlFor="file">
-      <InputContent>
+    <UploadLabel htmlFor="image-file">
+      <InputContent {...getRootProps()} ref={inputContent} id="image-content">
         <ImageIcon />
-        <Text variant="h4">Upload the image</Text>
-        <img src={image} alt="" />
+        <Text variant="h4">
+          Drag and drop or click here
+          <br />
+          to upload the image
+        </Text>
+        <br />
+        <Text variant="body2">Upload any images from desktop</Text>
       </InputContent>
-      <ImportField
-        id="file"
-        type="file"
-        accept="image/*"
-        onChangeCapture={handleChange}
-      />
+      <input {...getInputProps()} />
     </UploadLabel>
   );
 }

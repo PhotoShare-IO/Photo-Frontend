@@ -12,8 +12,9 @@ const Wrapper = styled(Box)(() => ({
 }));
 
 const ImageFieldBox = styled(Box)(() => ({
-  width: "40%",
-  margin: "20px 0",
+  width: "35%",
+  display: "flex",
+  justifyContent: "center",
 }));
 
 const FormBox = styled(Box)(() => ({
@@ -44,7 +45,7 @@ function PostForm() {
           validationSchema={Yup.object().shape({
             name: Yup.string().max(255).required("Name of post is required"),
           })}
-          onSubmit={() => {}}
+          onSubmit={() => console.log("post was created")}
         >
           {({
             values,

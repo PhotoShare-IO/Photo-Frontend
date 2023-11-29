@@ -1,5 +1,5 @@
 import React from "react";
-import Home from "./components/startpage/Home";
+import Home from "./pages/main/Home";
 import Auth from "./layouts/Auth";
 import BaseTemplate from "./layouts/BaseTemplate";
 import AuthGuard from "./layouts/guards/AuthGuard";
