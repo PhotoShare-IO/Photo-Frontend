@@ -48,7 +48,12 @@ function Header() {
     <Box sx={{ flexGrow: 1 }}>
       <HeaderBar position="fixed">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography
+            onClick={() => navigate("/")}
+            variant="h4"
+            component="div"
+            sx={{ flexGrow: 1, cursor: "pointer" }}
+          >
             <b>Ph-Sh</b>
           </Typography>
           {user && user.id ? (
@@ -60,7 +65,7 @@ function Header() {
               >
                 Create post
               </Button>
-              <Typography>
+              <Typography variant="subtitle1">
                 {formatUserName(user?.first_name, user?.last_name)}
               </Typography>
               <Box sx={{ marginLeft: "15px" }}>

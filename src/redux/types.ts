@@ -32,6 +32,7 @@ export interface setCredentialsAction {
 }
 
 export type Post = {
+  id: number | string;
   album?: number;
   file_url: string;
   name: string;

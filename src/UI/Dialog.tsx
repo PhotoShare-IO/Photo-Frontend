@@ -10,7 +10,6 @@ import { TransitionProps } from "@mui/material/transitions";
 
 interface Props extends DialogProps {
   form: React.ReactElement<any, any>;
-  setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Transition = React.forwardRef(function Transition(

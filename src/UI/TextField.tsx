@@ -3,7 +3,9 @@ import {
   Box,
   FormControl,
   InputBase,
+  InputBaseComponentProps,
   InputBaseProps,
+  InputLabelProps,
   Typography,
 } from "@mui/material";
 import { COLORS } from "../theme/colors";
@@ -14,16 +16,30 @@ interface Props extends InputBaseProps {
   helperText?: string | false;
   variant: "standard" | "filled" | "outlined";
   fullWidth?: boolean;
+  InputProps?: InputBaseComponentProps;
+  InputLabelProps?: InputLabelProps;
 }
 
-function TextField({ label, helperText, variant, fullWidth, ...rest }: Props) {
+function TextField({
+  label,
+  helperText,
+  variant,
+  fullWidth,
+  InputProps,
+  InputLabelProps,
+  ...rest
+}: Props) {
   return (
     <FormControl
       sx={{ marginTop: "5px" }}
       fullWidth={fullWidth}
       variant={variant}
     >
-      <Typography sx={{ marginLeft: "10px" }} variant="body2">
+      <Typography
+        {...InputLabelProps}
+        sx={{ marginLeft: "10px" }}
+        variant="body2"
+      >
         {label}
       </Typography>
       <InputBase
@@ -32,6 +48,7 @@ function TextField({ label, helperText, variant, fullWidth, ...rest }: Props) {
             ? { "& .MuiInputBase-input": { borderColor: COLORS.red } }
             : {}
         }
+        inputProps={InputProps}
         {...rest}
       />
       <Typography
