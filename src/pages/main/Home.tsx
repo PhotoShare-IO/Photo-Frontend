@@ -8,7 +8,7 @@ import { fetchPosts, selectPosts } from "../../redux/posts";
 import { useNavigate } from "react-router-dom";
 
 const StartImage = styled("img")(() => ({
-  width: "100vw",
+  width: "100%",
   height: "62vh",
   position: "absolute",
   zIndex: -1,
@@ -16,7 +16,7 @@ const StartImage = styled("img")(() => ({
 
 const ImageBox = styled(Box)(() => ({
   position: "relative",
-  width: "100vw",
+  width: "100%",
   height: "62vh",
   marginBottom: "30px",
   display: "flex",
@@ -90,7 +90,7 @@ function Home() {
             />
           </Item>
         ))}
-        <Item>
+        {/* <Item>
           <Image
             src="https://firebasestorage.googleapis.com/v0/b/photo-share-938f3.appspot.com/o/images%2Fadam-davis-ZHGh3WaaTf4-unsplash.jpg?alt=media&token=6a1ca322-d701-4ffe-a071-b85f96c104c0"
             alt=""
@@ -179,7 +179,7 @@ function Home() {
             src="https://firebasestorage.googleapis.com/v0/b/photo-share-938f3.appspot.com/o/images%2Fbruno-guerrero-E78O9UPHo-s-unsplash.jpg?alt=media&token=acc99d5b-f7bc-4221-bcf1-ac90367f534c"
             alt=""
           />
-        </Item>
+        </Item> */}
       </Container>
     </Box>
   );
