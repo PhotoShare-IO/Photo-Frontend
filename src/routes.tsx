@@ -7,6 +7,7 @@ import SignIn from "./pages/auth/SignIn";
 import SignUp from "./pages/auth/SignUp";
 import NonFound from "./components/NonFound";
 import BaseGuard from "./layouts/guards/BaseGuard";
+import PostDetail from "./pages/main/PostDetail";
 
 const routes = [
   {
@@ -20,6 +21,10 @@ const routes = [
       {
         path: "",
         element: <Home />,
+      },
+      {
+        path: "post/:postID",
+        element: <PostDetail />,
       },
       {
         path: "*",
