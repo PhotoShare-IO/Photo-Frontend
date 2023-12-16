@@ -42,7 +42,11 @@ const Text = styled(Typography)(() => ({
   color: COLORS.gray,
 }));
 
-function ImportPhoto() {
+function ImportPhoto({
+  setImage,
+}: {
+  setImage: React.Dispatch<React.SetStateAction<File | null>>;
+}) {
   const inputContent: React.MutableRefObject<HTMLElement | null> = useRef(null);
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     accept: {
@@ -52,7 +56,10 @@ function ImportPhoto() {
   });
 
   useEffect(() => {
-    setPhoto(acceptedFiles[0]);
+    if (acceptedFiles.length) {
+      setPhoto(acceptedFiles[0]);
+      setImage(acceptedFiles[0]);
+    }
   }, [acceptedFiles]);
 
   const setPhoto = (image: File | undefined) => {
