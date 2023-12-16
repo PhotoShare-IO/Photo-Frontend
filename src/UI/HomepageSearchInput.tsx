@@ -1,48 +1,60 @@
 import React from "react";
-import { Autocomplete, styled } from "@mui/material";
-import TextField from "./TextField";
-import SearchIcon from "@mui/icons-material/Search";
-import { COLORS } from "../theme/colors";
+import { Autocomplete, styled, TextField } from "@mui/material";
+// import SearchIcon from "@mui/icons-material/Search";
 
-const SearchInput = styled(Autocomplete)(() => ({
+type Props = {
+  value: string;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
+  items: any[];
+};
+
+const SearchInput = styled(TextField)(() => ({
   backgroundColor: "#fff",
   borderRadius: 5,
-  "& .MuiFormControl-root": {
-    margin: 0,
+  "& .MuiFormLabel-root": {
+    "&:focus, &:active": {
+      color: "#000",
+    },
   },
   "& .MuiInputBase-root": {
+    border: "3px solid #fff",
     borderRadius: 5,
-    border: "2px solid #fff",
-    "&:focus": {
-      // TODO: add focus border of main color
-      borderColor: COLORS.main,
+    fontSize: "16px",
+    "&.Mui-focused": {
+      border: "3px solid #000",
     },
   },
   "& .MuiInputBase-input": {
-    fontSize: "16px",
-    width: "700px",
     border: "none",
-    padding: "13px",
-    "&:hover, &:focus": {
-      borderColor: "none",
-    },
   },
-  "& .MuiSvgIcon-root": {
-    marginLeft: "10px",
+  "& .MuiOutlinedInput-notchedOutline": {
+    border: "none",
   },
 }));
 
-function HomepageSearchInput() {
+function HomepageSearchInput({ value, setValue, items }: Props) {
   return (
-    <SearchInput
+    <Autocomplete
+      sx={{ width: "60%" }}
       id="main-search-input"
       freeSolo
-      options={[]}
+      inputValue={value}
+      onInputChange={(event, newInputValue) => {
+        setValue(newInputValue);
+      }}
+      value=""
+      options={items?.map((option) => option.name)}
       renderInput={(params: any) => (
-        <TextField
+        <SearchInput
           {...params}
-          startAdornment={<SearchIcon />}
-          placeholder="Search images"
+          placeholder="Search..."
+          // InputProps={{
+          //   startAdornment: (
+          //     <InputAdornment position="start">
+          //       <SearchIcon />
+          //     </InputAdornment>
+          //   ),
+          // }}
         />
       )}
     />
