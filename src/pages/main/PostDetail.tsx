@@ -6,11 +6,11 @@ import {
   Typography,
   Divider,
 } from "@mui/material";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { axiosInstance } from "../../services/axios";
 import { AxiosResponse } from "axios";
 import { Post } from "../../redux/types";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowBackButton from "../../components/buttons/ArrowBackButton";
 
 const Wrapper = styled(Box)(() => ({
   marginTop: "100px",
@@ -18,46 +18,27 @@ const Wrapper = styled(Box)(() => ({
 
 const Container = styled(MuiContainer)(() => ({
   display: "flex",
-  minHeight: "calc(100vh - 250px)",
-  backgroundColor: "#f2f2f2",
-  padding: "20px",
   borderRadius: "20px",
 }));
 
 const Photo = styled("img")(() => ({
   width: "100%",
   height: "100%",
-  borderRadius: "10px",
+  maxHeight: "800px",
+  borderRadius: "20px 0 0 20px",
 }));
 
 const PhotoBox = styled(Box)(() => ({
   width: "50%",
-  marginTop: "25px",
 }));
 
 const ContentBox = styled(Box)(() => ({
   width: "50%",
-  margin: "30px",
+  textAlign: "center",
+  boxShadow: "3px 0px 10px #f2f2f2",
   "& > div": {
     margin: "20px",
-  },
-}));
-
-const ArrowBox = styled(Box)(() => ({
-  margin: "0 80px",
-  a: {
-    width: "20px",
-    display: "flex",
-    padding: "10px",
-    color: "#000",
-    "&:hover": {
-      color: "#000",
-      backgroundColor: "#f2f2f2",
-      borderRadius: "10px",
-    },
-    "&:active": {
-      color: "#000",
-    },
+    padding: "20px",
   },
 }));
 
@@ -90,15 +71,11 @@ function PostDetail() {
 
   return (
     <Wrapper>
-      <ArrowBox>
-        <Link to="/">
-          <ArrowBackIcon />
-        </Link>
-      </ArrowBox>
+      <ArrowBackButton />
       <Container disableGutters>
         <PhotoBox>
           <Box>
-            <Photo src={post.file_url} alt="" />
+            <Photo src={post.file_url} alt="photo" />
           </Box>
         </PhotoBox>
         <ContentBox>
