@@ -5,12 +5,12 @@ export type Props = {
 };
 
 export type PostData = {
+  id: number;
+  file_url?: string;
+  name?: string;
+  description?: string;
+  album: {
     id: number;
-    file_url?: string;
-    name?: string;
-    description?: string;
-    album: {
-        id: number;
-        name: string;
-    }
+    name: string;
   };
+};
