@@ -1,17 +1,7 @@
 import { axiosInstance } from "../../services/axios";
 import { AxiosResponse } from "axios";
 import { Dispatch, SetStateAction } from "react";
-
-interface RegisterData {
-  id: number;
-  email: string;
-  first_name?: string;
-  last_name?: string;
-  tokens: {
-    access: string;
-    refresh: string;
-  };
-}
+import { RegisterData } from "../../redux/types";
 
 export const signUp = async (
   username: string,

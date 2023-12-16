@@ -26,6 +26,26 @@ export interface LoginData {
   };
 }
 
+export interface RegisterData {
+  id: number;
+  email: string;
+  first_name?: string;
+  last_name?: string;
+  tokens: {
+    access: string;
+    refresh: string;
+  };
+}
+
+export interface ResetPassword {
+  message: string;
+}
+
+export interface ResetPasswordConfirm {
+  success: boolean;
+  message: string;
+}
+
 export interface setCredentialsAction {
   type: "auth/setCredentials";
   payload: LoginData;
