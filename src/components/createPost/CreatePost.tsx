@@ -18,7 +18,7 @@ function CreatePost({ open, setOpen }: Props) {
       maxWidth="md"
       open={open}
       onClose={handleClose}
-      form={<PostForm />}
+      form={<PostForm setOpen={setOpen} />}
     />
   );
 }

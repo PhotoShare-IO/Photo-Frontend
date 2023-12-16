@@ -21,7 +21,11 @@ const initialState: Posts = {
 const postsSlice = createSlice({
   name: "posts",
   initialState,
-  reducers: {},
+  reducers: {
+    createPost: (state, action) => {
+      state.posts = [...state.posts, action.payload];
+    },
+  },
   // TODO: remove ts-ignore
   extraReducers: {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -47,7 +51,7 @@ const postsSlice = createSlice({
 });
 
 // eslint-disable-next-line no-empty-pattern
-export const {} = postsSlice.actions;
+export const { createPost } = postsSlice.actions;
 
 export const selectPosts = (state: any) => state.posts.posts; // TODO: change state ts-type
 
