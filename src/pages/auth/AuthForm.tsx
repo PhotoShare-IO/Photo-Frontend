@@ -1,8 +1,12 @@
 import React from "react";
-import LinkToSignIn from "../../components/auth/LinkToSignIn";
-import SignUpComponent from "../../components/auth/SignUp";
 import { Paper, Box, styled, Typography } from "@mui/material";
 import { COLORS } from "../../theme/colors";
+import { useNavigate } from "react-router-dom";
+
+type Props = {
+  authComponent: React.ReactNode;
+  link: React.ReactNode;
+};
 
 const Wrapper = styled(Box)(() => ({
   minWidth: "320px",
@@ -13,8 +17,8 @@ const Wrapper = styled(Box)(() => ({
 
 const FormBox = styled(Paper)(() => ({
   width: "320px",
-  padding: "30px",
   border: `1px dashed ${COLORS.main}`,
+  padding: "30px",
   opacity: ".96",
 }));
 
@@ -27,9 +31,12 @@ const ForgotPassword = styled(Typography)(() => ({
   color: "deepskyblue",
   textAlign: "center",
   marginTop: "20px",
+  cursor: "pointer",
 }));
 
-function SignUp() {
+function AuthForm({ authComponent, link }: Props) {
+  const navigate = useNavigate();
+
   return (
     <Wrapper>
       <FormBox>
@@ -41,16 +48,19 @@ function SignUp() {
           </Box>
           <Typography variant="h4">Welcome!</Typography>
         </Title>
-        <SignUpComponent />
+        {authComponent}
         <Box>
-          <ForgotPassword variant="subtitle2">Forgot password?</ForgotPassword>
+          <ForgotPassword
+            variant="subtitle2"
+            onClick={() => navigate("/auth/password-reset")}
+          >
+            Forgot password?
+          </ForgotPassword>
         </Box>
-        <Box sx={{ textAlign: "center", mt: 2 }}>
-          <LinkToSignIn />
-        </Box>
+        <Box sx={{ textAlign: "center", mt: 2 }}>{link}</Box>
       </FormBox>
     </Wrapper>
   );
 }
 
-export default SignUp;
+export default AuthForm;
